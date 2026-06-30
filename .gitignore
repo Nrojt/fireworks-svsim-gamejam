@@ -1,0 +1,29 @@
+# --- Godot ---
+# Editor import cache and generated data
+.godot/
+# Binary translations generated from CSV sources
+*.translation
+# Android build output
+/android/
+
+# --- JetBrains IDEs (IntelliJ IDEA, Rider, etc.) ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- OS-generated files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# --- Logs / temp ---
+*.log
+tmp/
