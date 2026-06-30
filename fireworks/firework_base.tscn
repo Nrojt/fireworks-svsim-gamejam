@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dw880w10vifft"]
+
+[ext_resource type="Script" uid="uid://dnvv8iyge33c" path="res://fireworks/firework_base.gd" id="1_enjej"]
+
+[node name="FireworkBase" type="Node2D" unique_id=1610165380]
+script = ExtResource("1_enjej")
+
+[node name="FireworkExplosionSprite" type="AnimatedSprite2D" parent="." unique_id=174376665]
+unique_name_in_owner = true
+visible = false
+frame_progress = 0.4060093
+
+[connection signal="animation_finished" from="FireworkExplosionSprite" to="." method="_on_firework_sprite_animation_finished"]
