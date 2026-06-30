@@ -1,7 +1,14 @@
 [gd_scene format=3 uid="uid://drs7palbanchg"]
 
 [ext_resource type="PackedScene" uid="uid://dw880w10vifft" path="res://fireworks/firework_base.tscn" id="1_o8y2a"]
+[ext_resource type="Script" uid="uid://b5cr2g3mxhu7g" path="res://fireworks/firework_resource.gd" id="2_8lkak"]
 [ext_resource type="Texture2D" uid="uid://besd4bn2xjpyy" path="res://fireworks/assets/sprites/Explosion_Crystals_Blue-sheet.png" id="2_tmf2h"]
+
+[sub_resource type="Resource" id="Resource_enjej"]
+script = ExtResource("2_8lkak")
+name = "Blue Crystal"
+fly_time = 10.0
+metadata/_custom_type_script = "uid://b5cr2g3mxhu7g"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ll58w"]
 atlas = ExtResource("2_tmf2h")
@@ -586,7 +593,8 @@ animations = [{
 }]
 
 [node name="FireworkBlueCrystal" unique_id=1610165380 instance=ExtResource("1_o8y2a")]
+resource = SubResource("Resource_enjej")
 
-[node name="FireworkSprite" parent="." index="0" unique_id=174376665]
+[node name="FireworkExplosionSprite" parent="." index="0" unique_id=174376665]
 sprite_frames = SubResource("SpriteFrames_enjej")
 frame_progress = 0.12789598

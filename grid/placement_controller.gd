@@ -3,8 +3,10 @@ extends Node2D
 
 @export var grid_manager: GridManager
 @export var firework_scene: PackedScene
+@export var rotation_step_degrees: float = 15.0
 
 var _ghost: FireworkBase = null
+var _current_rotation: float = 0.0
 
 func _ready() -> void:
 	if grid_manager == null:
@@ -25,6 +27,7 @@ func _create_ghost() -> void:
 func _process(_delta: float) -> void:
 	if _ghost == null or grid_manager == null:
 		return
+	_ghost.rotation = _current_rotation
 	var mouse_position: Vector2 = get_global_mouse_position()
 	var cell: Vector2i = grid_manager.world_to_cell(mouse_position)
 	if grid_manager.is_valid_cell(cell):
@@ -38,13 +41,41 @@ func _process(_delta: float) -> void:
 		grid_manager.clear_hover()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not (event is InputEventMouseButton) or not event.pressed:
+	var step: float = deg_to_rad(rotation_step_degrees)
+	if event is InputEventMouseButton:
+		if not event.pressed:
+			return
+		match event.button_index:
+			MOUSE_BUTTON_LEFT:
+				_try_place()
+			MOUSE_BUTTON_RIGHT:
+				_try_remove()
+			MOUSE_BUTTON_WHEEL_UP:
+				_rotate(step)
+			MOUSE_BUTTON_WHEEL_DOWN:
+				_rotate(-step)
+	elif event is InputEventKey:
+		if not event.pressed:
+			return
+		match event.keycode:
+			KEY_Q:
+				_rotate(step)
+			KEY_E:
+				_rotate(-step)
+			KEY_SPACE:
+				if not event.echo:
+					_ignite()
+
+func _rotate(step: float) -> void:
+	if grid_manager == null:
 		return
-	match event.button_index:
-		MOUSE_BUTTON_LEFT:
-			_try_place()
-		MOUSE_BUTTON_RIGHT:
-			_try_remove()
+	var cell: Vector2i = grid_manager.world_to_cell(get_global_mouse_position())
+	if grid_manager.is_valid_cell(cell) and grid_manager.is_occupied(cell):
+		var firework: FireworkBase = grid_manager.get_at(cell)
+		if firework != null and firework.state == FireworkBase.State.PLACED:
+			firework.rotation += step
+	else:
+		_current_rotation = wrapf(_current_rotation + step, -PI, PI)
 
 func _try_place() -> void:
 	if grid_manager == null or firework_scene == null:
@@ -57,6 +88,7 @@ func _try_place() -> void:
 	if not grid_manager.place(firework, cell):
 		firework.queue_free()
 		return
+	firework.rotation = _current_rotation
 	firework.fit_to_cell(grid_manager.cell_size)
 	grid_manager.queue_redraw()
 
@@ -68,3 +100,7 @@ func _try_remove() -> void:
 	if firework != null:
 		firework.queue_free()
 		grid_manager.queue_redraw()
+
+func _ignite() -> void:
+	if grid_manager != null:
+		grid_manager.ignite_from_rope()

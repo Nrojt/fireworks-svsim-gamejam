@@ -11,6 +11,19 @@ extends Node2D
 
 var hover_cell: Vector2i = Vector2i(-1, -1)
 var _cells: Dictionary = {}
+var _rope: IgnitionRope = null
+
+func _ready() -> void:
+	_spawn_rope()
+
+func _spawn_rope() -> void:
+	_rope = IgnitionRope.new()
+	_rope.grid_manager = self
+	add_child(_rope)
+
+func ignite_from_rope() -> void:
+	if _rope != null:
+		_rope.ignite_neighbors()
 
 func _draw() -> void:
 	var grid_width: float = columns * cell_size
@@ -51,8 +64,13 @@ func place(firework: FireworkBase, cell: Vector2i) -> bool:
 	if not is_valid_cell(cell) or is_occupied(cell):
 		return false
 	firework.position = cell_center(cell)
+	firework.grid_manager = self
+	firework.placed_cell = cell
 	_cells[cell] = firework
 	return true
+
+func get_fireworks() -> Array:
+	return _cells.values()
 
 func remove_at(cell: Vector2i) -> FireworkBase:
 	if not is_occupied(cell):
