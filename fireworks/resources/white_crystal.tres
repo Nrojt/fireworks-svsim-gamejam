@@ -6,11 +6,11 @@
 [resource]
 script = ExtResource("1_script")
 name = "White Crystal"
-description = "Premium payload, wide blast."
+description = "Premium payload, very wide blast."
 cost = 25
-fly_time = 0.9
-fly_speed = 320.0
-damage = 30
-explosion_radius = 56.0
-explosion_duration = 1.1
+fly_time = 1.0
+fly_speed = 340.0
+damage = 60
+explosion_radius = 112.0
+explosion_duration = 1.2
 scene = ExtResource("2_scene")
