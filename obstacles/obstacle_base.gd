@@ -7,7 +7,6 @@ extends Node2D
 @export var resource: ObstacleResource
 
 var occupied_cells: Array[Vector2i] = []
-var grid_manager: GridManager = null
 
 var _cell_size: int = 64
 var _health: int = 0
@@ -23,7 +22,6 @@ func _ready() -> void:
 # Called by GridManager once it has chosen the obstacle's origin cell; records
 # every covered cell and centers the node on the footprint.
 func setup(manager: GridManager, origin_cell: Vector2i) -> void:
-	grid_manager = manager
 	_cell_size = manager.cell_size
 	var footprint: Vector2i = resource.size if resource != null else Vector2i(1, 1)
 	occupied_cells.clear()
@@ -42,8 +40,7 @@ func take_damage(amount: int) -> void:
 	queue_redraw()
 	if _health <= 0:
 		destroyed.emit(self)
-		if grid_manager != null:
-			grid_manager.on_obstacle_destroyed(self)
+		Events.obstacle_destroyed.emit(self)
 		queue_free()
 
 func _draw() -> void:

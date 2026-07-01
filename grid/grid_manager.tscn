@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://grid/grid_manager.gd" id="1_gm"]
 [ext_resource type="Script" path="res://grid/placement_controller.gd" id="2_pc"]
+[ext_resource type="Script" path="res://grid/ignition_rope.gd" id="3_rope"]
 
 [node name="GridManager" type="Node2D"]
 script = ExtResource("1_gm")
@@ -9,3 +10,7 @@ grid_origin = Vector2(0, 32)
 
 [node name="PlacementController" type="Node2D" parent="."]
 script = ExtResource("2_pc")
+
+[node name="IgnitionRope" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_rope")

@@ -34,8 +34,7 @@ func _show_idle() -> void:
 func ignite() -> void:
 	if state != State.PLACED:
 		return
-	if grid_manager != null:
-		grid_manager.on_firework_ignite()
+	Events.firework_ignited.emit()
 	# Static firework (fly_time <= 0): skip flight and explode on the spot.
 	if _get_fly_time() <= 0.0:
 		_explode()
@@ -57,8 +56,7 @@ func _explode() -> void:
 	if fireworkSprite != null:
 		fireworkSprite.show()
 		fireworkSprite.play()
-	if grid_manager != null:
-		grid_manager.on_firework_exploded()
+	Events.firework_exploded.emit()
 
 func _ignite_neighbors_in_radius() -> void:
 	if grid_manager == null:

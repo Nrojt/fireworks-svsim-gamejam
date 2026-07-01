@@ -1,45 +1,22 @@
 class_name ShopUI
 extends CanvasLayer
-# Side panel built at runtime from ShopManager.available_fireworks. Runtime is better, since the amount of fireworks could change
-# Clicking a button selects that firework type. Unaffordable buttons are disabled.
+# Side panel. The shell (panel, title, money label) is defined in shop_ui.tscn
+# and accessed via %unique names; only the per-firework buttons are built in
+# code, since their count depends on the catalog.
 
-var _money_label: Label
+@onready var column: VBoxContainer = %Column
+@onready var money_label: Label = %MoneyLabel
+
 var _buttons: Dictionary = {}
 
 func _ready() -> void:
-	layer = 10
-	var background: Control = Control.new()
-	background.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
+	_build_buttons()
+	ShopManager.money_changed.connect(_on_money_changed)
+	ShopManager.selection_changed.connect(_on_selection_changed)
+	_on_money_changed(ShopManager.get_money())
+	_on_selection_changed(ShopManager.get_selected())
 
-	var panel: PanelContainer = PanelContainer.new()
-	panel.anchor_left = 1.0
-	panel.anchor_right = 1.0
-	panel.anchor_top = 0.0
-	panel.anchor_bottom = 1.0
-	panel.offset_left = -220.0
-	panel.offset_right = -10.0
-	panel.offset_top = 10.0
-	panel.offset_bottom = -10.0
-	background.add_child(panel)
-
-	var column: VBoxContainer = VBoxContainer.new()
-	column.add_theme_constant_override("separation", 6)
-	panel.add_child(column)
-
-	var title: Label = Label.new()
-	title.text = "Shop"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	column.add_child(title)
-
-	_money_label = Label.new()
-	_money_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	column.add_child(_money_label)
-
-	column.add_child(HSeparator.new())
-
-	# One toggle button per firework type in the catalog.
+func _build_buttons() -> void:
 	for resource in ShopManager.available_fireworks:
 		if not (resource is FireworkResource):
 			continue
@@ -55,14 +32,9 @@ func _ready() -> void:
 		column.add_child(button)
 		_buttons[firework] = button
 
-	ShopManager.money_changed.connect(_on_money_changed)
-	ShopManager.selection_changed.connect(_on_selection_changed)
-	_on_money_changed(ShopManager.get_money())
-	_on_selection_changed(ShopManager.get_selected())
-
 func _on_money_changed(new_amount: int) -> void:
-	if _money_label != null:
-		_money_label.text = "Money: $%d" % new_amount
+	if money_label != null:
+		money_label.text = "Money: $%d" % new_amount
 	for resource in _buttons:
 		var firework: FireworkResource = resource
 		var button: Button = _buttons[resource]

@@ -1,16 +1,15 @@
-[gd_resource type="Resource" script_class="FireworkResource" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="FireworkResource" format=3 uid="uid://bn30l0b6etth"]
 
-[ext_resource type="Script" path="res://fireworks/firework_resource.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b5cr2g3mxhu7g" path="res://fireworks/firework_resource.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://dqum5dqx6ro3k" path="res://fireworks/scenes/crystal/firework_white_crystal.tscn" id="2_scene"]
 
 [resource]
 script = ExtResource("1_script")
 name = "White Crystal"
-description = "Premium payload, wide blast."
+description = "Premium payload, very wide blast."
 cost = 25
-fly_time = 0.9
-fly_speed = 320.0
-damage = 30
-explosion_radius = 56.0
-explosion_duration = 1.1
+fly_time = 1.0
+fly_speed = 340.0
+damage = 60
+explosion_radius = 112.0
 scene = ExtResource("2_scene")

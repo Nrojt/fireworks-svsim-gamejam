@@ -22,7 +22,7 @@ var hover_cell: Vector2i = Vector2i(-1, -1)
 var _cells: Dictionary = {}  # Vector2i cell -> FireworkBase (PLACED ones only)
 var _obstacle_cells: Dictionary = {}  # Vector2i cell -> ObstacleBase
 var _obstacles: Array = []  # unique ObstacleBase instances
-var _rope: IgnitionRope = null
+@onready var _rope: IgnitionRope = %IgnitionRope
 
 # Round state.
 var _launched: bool = false
@@ -33,16 +33,13 @@ var _obstacles_total: int = 0
 var _obstacles_destroyed_count: int = 0
 
 func _ready() -> void:
-	# Scatter first, then let the fuse pick a clear cell. (IgnitionRope._ready is
-	# deferred, so doing it the other way round left the fuse cell unknown while
-	# scattering — which is how it could end up hidden under an obstacle.)
+	# Scatter first, then tell the fuse child node to pick a clear cell — so it
+	# never ends up hidden under an obstacle.
 	_scatter_obstacles()
-	_spawn_rope()
-
-func _spawn_rope() -> void:
-	_rope = IgnitionRope.new()
-	_rope.grid_manager = self
-	add_child(_rope)
+	_rope.spawn()
+	Events.firework_ignited.connect(_on_firework_ignited)
+	Events.firework_exploded.connect(_on_firework_exploded)
+	Events.obstacle_destroyed.connect(_on_obstacle_destroyed)
 
 # True while the player can still place/remove fireworks (before launch).
 func is_active() -> bool:
@@ -59,15 +56,14 @@ func ignite_from_rope() -> void:
 	if _rope != null:
 		_rope.ignite_neighbors()
 
-# Called by fireworks so the round can tell when the chain has fully settled.
-func on_firework_ignite() -> void:
+func _on_firework_ignited() -> void:
 	_flying_count += 1
 
-func on_firework_exploded() -> void:
+func _on_firework_exploded() -> void:
 	_flying_count = max(0, _flying_count - 1)
 	_check_settled()
 
-func on_obstacle_destroyed(obstacle: ObstacleBase) -> void:
+func _on_obstacle_destroyed(obstacle: ObstacleBase) -> void:
 	if obstacle.resource != null:
 		_destroyed_points += obstacle.resource.points
 	_obstacles_destroyed_count += 1
@@ -84,9 +80,7 @@ func _show_end_screen() -> void:
 	var total: int = money_leftover + _destroyed_points
 	var needed: int = int(ceil(_obstacles_total * win_ratio))
 	var won: bool = _obstacles_destroyed_count >= needed
-	var end_screen = get_tree().get_first_node_in_group("end_screen")
-	if end_screen is EndScreen:
-		end_screen.show_result(won, money_leftover, _destroyed_points, total, _obstacles_destroyed_count, _obstacles_total)
+	Events.round_ended.emit(won, money_leftover, _destroyed_points, total, _obstacles_destroyed_count, _obstacles_total)
 
 # ---- Obstacles ----
 

@@ -1,6 +1,42 @@
-[gd_scene format=3 uid="uid://cdu3045hdadbp"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://0nhox28noeis" path="res://ui/shop_ui.gd" id="1_ui"]
+[ext_resource type="Script" path="res://ui/shop_ui.gd" id="1_ui"]
 
-[node name="ShopUI" type="CanvasLayer" unique_id=237639282]
+[node name="ShopUI" type="CanvasLayer"]
+layer = 10
 script = ExtResource("1_ui")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Background"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 0.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_right = -10.0
+offset_top = 10.0
+offset_bottom = -10.0
+
+[node name="Column" type="VBoxContainer" parent="Background/Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Background/Panel/Column"]
+layout_mode = 2
+text = "Shop"
+horizontal_alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="Background/Panel/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Background/Panel/Column"]
+layout_mode = 2

@@ -13,7 +13,7 @@ const _ORANGE_CRYSTAL = preload("res://fireworks/resources/orange_crystal.tres")
 const _WHITE_CRYSTAL = preload("res://fireworks/resources/white_crystal.tres")
 const _BLUE_EXPLOSION = preload("res://fireworks/resources/blue_explosion.tres")
 
-var available_fireworks: Array = [_BLUE_CRYSTAL, _GREEN_CRYSTAL, _ORANGE_CRYSTAL, _WHITE_CRYSTAL, _BLUE_EXPLOSION]
+var available_fireworks: Array[FireworkResource] = [_BLUE_CRYSTAL, _GREEN_CRYSTAL, _ORANGE_CRYSTAL, _WHITE_CRYSTAL, _BLUE_EXPLOSION]
 var _money: int = 0
 var _selected: FireworkResource = null
 
