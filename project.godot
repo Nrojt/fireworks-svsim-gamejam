@@ -15,12 +15,16 @@ run/main_scene="uid://byrc63jx8jq0t"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ShopManager="*res://autoload/shop_manager.gd"
+
 [display]
 
-window/size/width=1024
-window/size/height=576
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/size/width=1280
+window/size/height=576
 
 [physics]
 

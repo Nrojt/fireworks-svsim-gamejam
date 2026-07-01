@@ -1,37 +1,19 @@
 [gd_scene format=3 uid="uid://byrc63jx8jq0t"]
 
 [ext_resource type="PackedScene" path="res://grid/grid_manager.tscn" id="1_grid"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hz"]
-size = Vector2(1024, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vt"]
-size = Vector2(16, 576)
+[ext_resource type="PackedScene" uid="uid://cdu3045hdadbp" path="res://ui/shop_ui.tscn" id="2_ui"]
+[ext_resource type="Script" path="res://game_main.gd" id="3_main"]
+[ext_resource type="PackedScene" path="res://ui/end_screen.tscn" id="4_end"]
 
 [node name="GameMain" type="Node2D" unique_id=1548417051]
+script = ExtResource("3_main")
+starting_money = 100
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=1470951422]
+[node name="GridManager" parent="." unique_id=164557591 instance=ExtResource("1_grid")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1741539917]
-position = Vector2(512, 584)
-shape = SubResource("RectangleShape2D_hz")
+[node name="ShopUI" parent="." unique_id=1370038885 instance=ExtResource("2_ui")]
 
-[node name="Ceiling" type="StaticBody2D" parent="." unique_id=127066881]
+[node name="EndScreen" parent="." instance=ExtResource("4_end")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" unique_id=989507457]
-position = Vector2(512, -8)
-shape = SubResource("RectangleShape2D_hz")
-
-[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1280652447]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=923931208]
-position = Vector2(-8, 288)
-shape = SubResource("RectangleShape2D_vt")
-
-[node name="WallRight" type="StaticBody2D" parent="." unique_id=552063431]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=197953780]
-position = Vector2(1032, 288)
-shape = SubResource("RectangleShape2D_vt")
-
-[node name="GridManager" parent="." instance=ExtResource("1_grid")]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=546537182]
+position = Vector2(640, 288)

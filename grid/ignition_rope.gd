@@ -1,5 +1,7 @@
 class_name IgnitionRope
 extends Node2D
+# The fuse. Spawns on a random cell; on launch (Space) it ignites fireworks on
+# and adjacent to its cell, kicking off the chain reaction.
 
 @export var grid_manager: GridManager
 
@@ -14,14 +16,15 @@ func _ready() -> void:
 		_spawn_at_random_cell()
 
 func _spawn_at_random_cell() -> void:
-	cell = Vector2i(randi() % grid_manager.columns, randi() % grid_manager.rows)
+	cell = grid_manager.find_clear_fuse_cell()
 	position = grid_manager.cell_center(cell)
-	z_index = 5
+	z_index = 50
 	queue_redraw()
 
 func ignite_neighbors() -> void:
 	if grid_manager == null:
 		return
+	# Own cell + the 4 cardinal neighbours.
 	var neighbor_offsets: Array[Vector2i] = [
 		Vector2i(0, 0),
 		Vector2i(1, 0),

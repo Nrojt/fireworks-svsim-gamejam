@@ -573,13 +573,13 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_turer")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"default",
 "speed": 30.0
 }]
 
 [node name="FireworkGreenCrystal" unique_id=1610165380 instance=ExtResource("1_icivw")]
 
-[node name="AnimatedSprite2D" parent="." index="0" unique_id=174376665]
+[node name="FireworkExplosionSprite" parent="." index="0" unique_id=174376665]
 sprite_frames = SubResource("SpriteFrames_5b78m")
 frame_progress = 0.3901697

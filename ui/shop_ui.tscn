@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdu3045hdadbp"]
+
+[ext_resource type="Script" uid="uid://0nhox28noeis" path="res://ui/shop_ui.gd" id="1_ui"]
+
+[node name="ShopUI" type="CanvasLayer" unique_id=237639282]
+script = ExtResource("1_ui")

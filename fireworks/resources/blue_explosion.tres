@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FireworkResource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://fireworks/firework_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cy2mj01duik5q" path="res://fireworks/scenes/explosion/firework_blue_explosion.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+name = "Big Blue Blast"
+description = "Static. No flight, huge blast."
+cost = 50
+fly_time = 0.0
+fly_speed = 0.0
+damage = 60
+explosion_radius = 160.0
+explosion_duration = 1.0
+scene = ExtResource("2_scene")

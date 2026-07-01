@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstacleResource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://obstacles/obstacle_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://obstacles/obstacle_base.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+name = "House"
+health = 60
+size = Vector2i(2, 2)
+points = 60
+scene = ExtResource("2_scene")

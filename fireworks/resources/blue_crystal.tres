@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FireworkResource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://fireworks/firework_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://drs7palbanchg" path="res://fireworks/scenes/crystal/firework_blue_crystal.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+name = "Blue Crystal"
+description = "Balanced all-rounder."
+cost = 10
+fly_time = 0.8
+fly_speed = 300.0
+damage = 20
+explosion_radius = 48.0
+explosion_duration = 1.0
+scene = ExtResource("2_scene")

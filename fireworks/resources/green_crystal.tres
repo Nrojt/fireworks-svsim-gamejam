@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FireworkResource" format=3 uid="uid://6nuvhw0ltch5"]
+
+[ext_resource type="Script" uid="uid://b5cr2g3mxhu7g" path="res://fireworks/firework_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b0tjneo63k7fq" path="res://fireworks/scenes/crystal/firework_green_crystal.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+name = "Green Crystal"
+description = "Fast and cheap, small blast."
+cost = 8
+fly_time = 0.6
+fly_speed = 360.0
+damage = 15
+explosion_radius = 40.0
+scene = ExtResource("2_scene")

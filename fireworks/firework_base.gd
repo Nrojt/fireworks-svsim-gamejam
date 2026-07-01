@@ -1,15 +1,12 @@
 class_name FireworkBase
 extends Node2D
+# A firework on the grid. Lifecycle: PLACED -> FLYING -> EXPLODED.
 
 enum State { PLACED, FLYING, EXPLODED }
 
-const DEFAULT_FLY_TIME: float = 0.8
-const DEFAULT_FLY_SPEED: float = 300.0
-const DEFAULT_EXPLOSION_RADIUS: float = 48.0
-
 @export var resource: FireworkResource
 
-@onready var fireworkSprite: AnimatedSprite2D = _find_sprite()
+@onready var fireworkSprite: AnimatedSprite2D = %FireworkExplosionSprite
 
 var state: State = State.PLACED
 var placed_cell: Vector2i = Vector2i(-1, -1)
@@ -28,12 +25,6 @@ func _process(delta: float) -> void:
 		if _check_impact() or _fly_time_remaining <= 0.0:
 			_explode()
 
-func _find_sprite() -> AnimatedSprite2D:
-	for child in get_children():
-		if child is AnimatedSprite2D:
-			return child
-	return null
-
 func _show_idle() -> void:
 	if fireworkSprite == null:
 		return
@@ -43,8 +34,14 @@ func _show_idle() -> void:
 func ignite() -> void:
 	if state != State.PLACED:
 		return
+	if grid_manager != null:
+		grid_manager.on_firework_ignite()
+	# Static firework (fly_time <= 0): skip flight and explode on the spot.
+	if _get_fly_time() <= 0.0:
+		_explode()
+		return
 	state = State.FLYING
-	_flight_direction = Vector2.UP.rotated(rotation)
+	_flight_direction = Vector2.UP.rotated(rotation)  # UP == "forward" at rotation 0
 	_fly_time_remaining = _get_fly_time()
 	queue_redraw()
 
@@ -53,10 +50,15 @@ func _explode() -> void:
 		return
 	state = State.EXPLODED
 	queue_redraw()
+	# Propagate the chain: any still-placed firework inside the blast ignites.
 	_ignite_neighbors_in_radius()
+	# Damage every obstacle inside the blast.
+	_damage_obstacles_in_radius()
 	if fireworkSprite != null:
 		fireworkSprite.show()
 		fireworkSprite.play()
+	if grid_manager != null:
+		grid_manager.on_firework_exploded()
 
 func _ignite_neighbors_in_radius() -> void:
 	if grid_manager == null:
@@ -68,36 +70,57 @@ func _ignite_neighbors_in_radius() -> void:
 				grid_manager.remove_at(firework.placed_cell)
 				firework.ignite()
 
+func _damage_obstacles_in_radius() -> void:
+	if grid_manager == null:
+		return
+	var explosion_radius: float = _get_explosion_radius()
+	var damage: int = _get_damage()
+	for obstacle in grid_manager.get_obstacles():
+		if is_instance_valid(obstacle) and position.distance_to(obstacle.position) <= explosion_radius:
+			obstacle.take_damage(damage)
+
+# True if this flying firework has entered a solid cell (a placed firework or an
+# obstacle) — i.e. it bumped into something.
 func _check_impact() -> bool:
 	if grid_manager == null:
 		return false
 	var current_cell: Vector2i = grid_manager.world_to_cell(position)
-	return grid_manager.is_valid_cell(current_cell) and grid_manager.is_occupied(current_cell)
+	return grid_manager.is_valid_cell(current_cell) and grid_manager.is_blocked(current_cell)
 
 func _get_fly_time() -> float:
-	if resource != null and resource.fly_time > 0.0:
-		return resource.fly_time
-	return DEFAULT_FLY_TIME
+	if resource != null:
+		return resource.fly_time  # 0.0 means a static firework (no flight)
+	push_error("Firework has no resource.")
+	return 0.0
 
 func _get_fly_speed() -> float:
 	if resource != null and resource.fly_speed > 0.0:
 		return resource.fly_speed
-	return DEFAULT_FLY_SPEED
+	push_error("Firework resource missing fly_speed, using default.")
+	return 0.0
 
 func _get_explosion_radius() -> float:
 	if resource != null and resource.explosion_radius > 0.0:
 		return resource.explosion_radius
-	return DEFAULT_EXPLOSION_RADIUS
+	push_error("Firework resource missing explosion_radius, using default.")
+	return 0.0
 
+func _get_damage() -> int:
+	if resource != null and resource.damage > 0:
+		return resource.damage
+	push_error("Firework resource missing damage.")
+	return 0
+
+# Scales the node so its first sprite frame fits inside one grid cell.
 func fit_to_cell(cell_size: int) -> void:
 	if fireworkSprite == null or fireworkSprite.sprite_frames == null:
 		return
-	var animation_name: String = fireworkSprite.animation
-	if animation_name == "" or not fireworkSprite.sprite_frames.has_animation(animation_name):
+	var animation_name: StringName = fireworkSprite.animation
+	if not fireworkSprite.sprite_frames.has_animation(animation_name):
 		var animation_names: PackedStringArray = fireworkSprite.sprite_frames.get_animation_names()
 		if animation_names.is_empty():
 			return
-		animation_name = animation_names[0]
+		animation_name = StringName(animation_names[0])
 	var frame_texture: Texture2D = fireworkSprite.sprite_frames.get_frame_texture(animation_name, 0)
 	if frame_texture == null:
 		return
@@ -106,9 +129,13 @@ func fit_to_cell(cell_size: int) -> void:
 		return
 	scale = Vector2.ONE * (float(cell_size) / max_dimension)
 
+# Draws an aim arrow.
+# TODO: change for a firework sprite?
 func _draw() -> void:
 	if state == State.EXPLODED:
 		return
+	if _get_fly_time() <= 0.0:
+		return  # static firework has no aim direction
 	var arrow_color: Color = Color(1, 0.9, 0.3, 0.9)
 	var arrow_length: float = 60.0
 	var arrow_width: float = 4.0

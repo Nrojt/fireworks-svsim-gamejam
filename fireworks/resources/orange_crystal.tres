@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FireworkResource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://fireworks/firework_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b8yab23xb0ub4" path="res://fireworks/scenes/crystal/firework_orange_crystal.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+name = "Orange Crystal"
+description = "Slow, heavy hitter, big radius."
+cost = 20
+fly_time = 1.0
+fly_speed = 260.0
+damage = 35
+explosion_radius = 64.0
+explosion_duration = 1.2
+scene = ExtResource("2_scene")
