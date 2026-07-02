@@ -1,6 +1,7 @@
 # --- Godot ---
 # Editor import cache and generated data
 .godot/
+.export/
 # Binary translations generated from CSV sources
 *.translation
 # Android build output
