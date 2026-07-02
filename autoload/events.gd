@@ -1,7 +1,5 @@
 extends Node
-# Global signal bus. Only cross-system events live here — the kind that need to
-# travel between unrelated parts of the tree. Keep it small; for everything else
-# prefer the owning system's own signals (e.g. ShopManager.money_changed).
+# Global signal bus. Only for cross-system events
 
 signal firework_ignited
 signal firework_exploded

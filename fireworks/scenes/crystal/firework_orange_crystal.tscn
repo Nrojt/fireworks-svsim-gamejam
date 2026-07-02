@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dw880w10vifft" path="res://fireworks/firework_base.tscn" id="1_jn050"]
 [ext_resource type="Texture2D" uid="uid://c0niwgwoe4sea" path="res://fireworks/assets/sprites/Explosion_Crystals_Orange-sheet.png" id="2_l2uao"]
+[ext_resource type="AudioStream" uid="uid://bk5spa5vy1oxx" path="res://fireworks/assets/sfx/fbang13.wav" id="3_mlae8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0pb20"]
 atlas = ExtResource("2_l2uao")
@@ -576,3 +577,6 @@ animations = [{
 [node name="FireworkExplosionSprite" parent="." index="0" unique_id=174376665]
 sprite_frames = SubResource("SpriteFrames_epmce")
 frame_progress = 0.8213397
+
+[node name="FireworkExplosionSoundPlayer" parent="." index="1" unique_id=695002557]
+stream = ExtResource("3_mlae8")

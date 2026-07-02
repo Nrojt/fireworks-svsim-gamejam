@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://byrc63jx8jq0t"]
+
+[ext_resource type="PackedScene" path="res://grid/grid_manager.tscn" id="1_grid"]
+[ext_resource type="PackedScene" path="res://ui/shop_ui.tscn" id="2_ui"]
+[ext_resource type="Script" uid="uid://d0r40g5psm1vo" path="res://main/game_main.gd" id="3_main"]
+[ext_resource type="PackedScene" path="res://ui/end_screen.tscn" id="4_end"]
+[ext_resource type="AudioStream" uid="uid://d2m7w5rho4f04" path="res://main/assets/january song.wav" id="5_8usts"]
+
+[node name="GameMain" type="Node2D" unique_id=1548417051]
+script = ExtResource("3_main")
+starting_money = 200
+
+[node name="GridManager" parent="." unique_id=164557591 instance=ExtResource("1_grid")]
+
+[node name="ShopUI" parent="." unique_id=1370038885 instance=ExtResource("2_ui")]
+
+[node name="EndScreen" parent="." unique_id=1937266718 instance=ExtResource("4_end")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=546537182]
+position = Vector2(640, 288)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1819529261]
+stream = ExtResource("5_8usts")
+volume_db = -20.0
+autoplay = true

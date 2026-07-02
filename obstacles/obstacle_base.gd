@@ -2,7 +2,7 @@ class_name ObstacleBase
 extends Node2D
 # A destructible obstacle occupying one or more grid cells. Loses health from
 # firework explosions and is freed when health hits 0. Drawn as a placeholder
-# box with a depleting health bar (swap _draw for a sprite later).
+# box with a depleting health bar.
 
 @export var resource: ObstacleResource
 
@@ -19,8 +19,8 @@ func _ready() -> void:
 		_health = resource.health
 		_max_health = max(1, resource.health)
 
-# Called by GridManager once it has chosen the obstacle's origin cell; records
-# every covered cell and centers the node on the footprint.
+# Called by GridManager once it has chosen the obstacle's origin cel.
+# Records every covered cell and centers the node on the footprint.
 func setup(manager: GridManager, origin_cell: Vector2i) -> void:
 	_cell_size = manager.cell_size
 	var footprint: Vector2i = resource.size if resource != null else Vector2i(1, 1)

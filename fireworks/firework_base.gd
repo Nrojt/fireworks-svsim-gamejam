@@ -7,6 +7,7 @@ enum State { PLACED, FLYING, EXPLODED }
 @export var resource: FireworkResource
 
 @onready var fireworkSprite: AnimatedSprite2D = %FireworkExplosionSprite
+@onready var fireworkSound : AudioStreamPlayer2D = %FireworkExplosionSoundPlayer
 
 var state: State = State.PLACED
 var placed_cell: Vector2i = Vector2i(-1, -1)
@@ -56,6 +57,8 @@ func _explode() -> void:
 	if fireworkSprite != null:
 		fireworkSprite.show()
 		fireworkSprite.play()
+	if fireworkSound != null && fireworkSound.stream != null && (fireworkSound.stream.get_length() > 0.0):
+		fireworkSound.play()
 	Events.firework_exploded.emit()
 
 func _ignite_neighbors_in_radius() -> void:

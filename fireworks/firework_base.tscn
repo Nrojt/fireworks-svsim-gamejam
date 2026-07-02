@@ -10,4 +10,7 @@ unique_name_in_owner = true
 visible = false
 frame_progress = 0.4060093
 
+[node name="FireworkExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=695002557]
+unique_name_in_owner = true
+
 [connection signal="animation_finished" from="FireworkExplosionSprite" to="." method="_on_firework_sprite_animation_finished"]

@@ -2,16 +2,15 @@ extends Node
 # Autoload singleton. Holds the player's money, the shop catalog, and the
 # currently selected firework type. Both the ShopUI and PlacementController
 # read/write through here.
-# Starting money is configured per-level: the level scene calls start_level().
 
 signal money_changed(new_amount: int)
 signal selection_changed(selected: FireworkResource)
 
-const _BLUE_CRYSTAL = preload("res://fireworks/resources/blue_crystal.tres")
-const _GREEN_CRYSTAL = preload("res://fireworks/resources/green_crystal.tres")
-const _ORANGE_CRYSTAL = preload("res://fireworks/resources/orange_crystal.tres")
-const _WHITE_CRYSTAL = preload("res://fireworks/resources/white_crystal.tres")
-const _BLUE_EXPLOSION = preload("res://fireworks/resources/blue_explosion.tres")
+const _BLUE_CRYSTAL = preload("uid://4p4kt3x6nn11")
+const _GREEN_CRYSTAL = preload("uid://6nuvhw0ltch5")
+const _ORANGE_CRYSTAL = preload("uid://b0wiovfpg75dy")
+const _WHITE_CRYSTAL = preload("uid://bn30l0b6etth")
+const _BLUE_EXPLOSION = preload("uid://bri31g47pvt8s")
 
 var available_fireworks: Array[FireworkResource] = [_BLUE_CRYSTAL, _GREEN_CRYSTAL, _ORANGE_CRYSTAL, _WHITE_CRYSTAL, _BLUE_EXPLOSION]
 var _money: int = 0

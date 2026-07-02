@@ -13,5 +13,3 @@ extends Resource
 @export var explosion_radius : float = 48.0
 @export_category("Prefab")
 @export var scene : PackedScene
-
-
