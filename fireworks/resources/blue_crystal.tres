@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_script")
 name = "Blue Crystal"
-description = "Balanced all-rounder."
+description = "All-rounder."
 cost = 10
 fly_time = 0.9
 fly_speed = 320.0

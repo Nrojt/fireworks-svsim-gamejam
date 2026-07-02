@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_script")
 name = "Big Blue Blast"
-description = "Static. No flight, huge blast."
+description = "No movement, huge blast."
 cost = 50
 fly_time = 0.0
 fly_speed = 0.0

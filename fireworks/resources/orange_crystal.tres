@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_script")
 name = "Orange Crystal"
-description = "Slow, short-range, devastating blast."
+description = "Slow, short-range, big blast."
 cost = 20
 fly_time = 0.7
 fly_speed = 220.0

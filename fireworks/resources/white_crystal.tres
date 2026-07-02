@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_script")
 name = "White Crystal"
-description = "Premium payload, very wide blast."
+description = "Premium rocket, very wide blast."
 cost = 25
 fly_time = 1.0
 fly_speed = 340.0
